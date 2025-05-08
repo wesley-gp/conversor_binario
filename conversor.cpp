@@ -1,9 +1,10 @@
 #include <iostream>
 #include <math.h>
 
-
-
 using namespace std;
+
+
+
 bool isBinario(string valor){
     for(int i=0; i<valor.length(); i++){
         if(valor.at(i)!='0' && valor.at(i)!='1'){
@@ -16,13 +17,18 @@ bool isBinario(string valor){
 int converterBinarioPraDecimal(string valor){
     int cont{};
     for(int i=0; i<valor.length(); i++){
-        if(valor.at(i)!='1'){
+        if(valor.at(i)=='1'){
             cont+= pow(2,valor.length()-1-i);
         }
 
     }
     return cont;
 }
+
+
+
+
+
 int main(){
     int opcao_escolhida, valor_converter_decimal;
     bool valor_errado, valor_recebido;
@@ -52,7 +58,7 @@ int main(){
                 if(isBinario(valor_converter_binario)){
                     int valor_convertido_decimal = converterBinarioPraDecimal(valor_converter_binario);
                     cout<< "o valor é "<<valor_convertido_decimal<<endl;
-
+                    valor_recebido = true;
                     break;
                 }
                 else{
@@ -76,21 +82,34 @@ int main(){
             break;
         }
         if(valor_recebido){
-            int opc_valor_recebido;
-            cout<< "desja fazer mais alguma conversão? (s/n):";
-            cin>>opc_valor_recebido;
-            cout<< endl;
+            while (1){
+                char opc_valor_recebido;
+                cout<< "desja fazer mais alguma conversão? (s/n):";
+                cin>>opc_valor_recebido;
+                cout<< endl;
 
-            if(opc_valor_recebido =='n'){
-                cout<< "entendido, até a próxima\n";
-                return 0;
+                if(opc_valor_recebido =='n'){
+                    cout<< "entendido, até a próxima\n";
+                    return 0;
+                }
+                else if (opc_valor_recebido== 's'){
+                    break;
+                }
+                else{
+                    string opc_valor_recebido_errado;
+                    cout<<"valor invalido, digite 'x' para sair do programa ou qualquer outra tecla para voltar ao menu.\n digite aqui:";
+                    cin>> opc_valor_recebido_errado;
+                    if(opc_valor_recebido_errado=="x"){
+                        cout<< "entendido, até a próxima\n";
+                        return 0;
+                    }
+                    else{
+                        break;
+                    }
+                }   
             }
-            else if (opc_valor_recebido== 's'){
-                
-            }
-            else{
-
-            }
+            
+            
                     
         }
         if(valor_errado){
