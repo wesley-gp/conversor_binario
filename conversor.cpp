@@ -25,14 +25,30 @@ int converterBinarioPraDecimal(string valor){
     return cont;
 }
 
-
+string converterDecimalPraBinario(int valor){
+    string binarioInvertido = "";
+    string binarioFinal = "";
+    while(valor>=1){
+        if(valor%2==0){
+            binarioInvertido +="0";
+        }
+        else{
+            binarioInvertido +="1";
+        }
+        valor/=2;
+    }
+    for(int i = binarioInvertido.length()-1; i>=0; i--){
+        binarioFinal += binarioInvertido.at(i);
+    }
+    return binarioFinal;
+}
 
 
 
 int main(){
     int opcao_escolhida, valor_converter_decimal;
     bool valor_errado, valor_recebido;
-    string valor_converter_binario;
+    string valor_converter_binario, valor_convertido_binario;
     while(1){
         valor_errado = false;
         valor_recebido = false;
@@ -46,9 +62,13 @@ int main(){
         switch (opcao_escolhida)
         {
         case 1:
-            cout<< "digite o valor em decimal:";
+            cout<< "digite o valor em decimal (inteiro):";
             cin>> valor_converter_decimal;
+            valor_converter_decimal /=1;
+            valor_convertido_binario  = converterDecimalPraBinario(valor_converter_decimal);
+            cout<< "o valor é "<< valor_convertido_binario<<endl;
             cout<<endl;
+            valor_recebido = true;
             break;
         case 2:
             while(1){
@@ -62,10 +82,10 @@ int main(){
                     break;
                 }
                 else{
-                    cout<< "o valor digitado não é binário, digite 'v' para escolher outra opção\nou digite qualquer outro valor e tente novamente:";
+                    cout<< "o valor digitado não é binário, digite 'o' para escolher outra opção\nou digite qualquer outro valor e tente novamente:";
                     char opcao;
                     cin>> opcao;
-                    if(opcao=='v'){
+                    if(opcao=='o'){
                         break;
                     }
                     continue;
