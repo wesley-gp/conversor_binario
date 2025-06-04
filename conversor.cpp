@@ -6,16 +6,13 @@ using namespace std;
 #include <string>
 #include <algorithm>
 
-string decimalParaBaseMaiMin(int numeroDecimal, int base) {
-    if (base < 2 || base > 62) {
-        return "Base inválida.";
-    }
+string decimalPraOutraBase(int numeroDecimal, int base) {
 
     if (numeroDecimal == 0) {
         return "0";
     }
 
-    // Digitos para base até 62: 0-9, A-Z, a-z
+    // Digitos para base até 62: 0-9, 26 A-Z, 26 a-z 2- 62
     std::string digitos = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     std::string resultado = "";
     bool negativo = false;
@@ -83,33 +80,38 @@ bool isBinario(string valor){
 }
 int converterBinarioPraDecimal(string valor){
     int cont{};
-    for(int i=0; i<valor.length(); i++){
-        if(valor.at(i)=='1'){
-            cont+= pow(2,valor.length()-1-i);
-        }
+    if(valor[0]=='0'){
+        for(int i=0; i<valor.length(); i++){
+            if(valor.at(i)=='1'){
+                cont+= pow(2,valor.length()-1-i);
+            }
 
+        }
+        return cont;
     }
-    return cont;
+    else{
+        string invertido = valor;
+        for(int i =0; i<valor.length();i++){
+            invertido[i] = (valor[i]=='0')? '1':'0';
+        }
+        int indice_first_zero = invertido.length()-1;
+        while (indice_first_zero >= 0 && invertido[indice_first_zero] == '1') {
+            invertido[indice_first_zero] = '0';
+            indice_first_zero--;
+        }
+        if (indice_first_zero >= 0) {
+            invertido[indice_first_zero] = '1';
+        } else {
+            invertido = '1' + invertido;
+        }
+        for(int i=0; i<invertido.length(); i++){
+            if(invertido[i]=='1'){
+                cont+= (1 << (invertido.length() - 1 - i));
+            }
+        }
+        return -cont;
+    }
 }
-
-string converterDecimalPraBinario(int valor){
-    string binarioInvertido = "";
-    string binarioFinal = "";
-    while(valor>=1){
-        if(valor%2==0){
-            binarioInvertido +="0";
-        }
-        else{
-            binarioInvertido +="1";
-        }
-        valor/=2;
-    }
-    for(int i = binarioInvertido.length()-1; i>=0; i--){
-        binarioFinal += binarioInvertido.at(i);
-    }
-    return binarioFinal;
-}
-
 
 
 int main(){
@@ -144,9 +146,14 @@ int main(){
                     limparCin();
                     continue;
                 }
+                if (base_conversao < 2 || base_conversao > 62) {
+                    cout<< "base invalido, tente novamente\n";
+                    limparCin();
+                    continue;
+                }
                 limparCin();
                 valor_converter_decimal /=1;
-                valor_convertido_binario  = decimalParaBaseMaiMin(valor_converter_decimal, base_conversao);
+                valor_convertido_binario  = decimalPraOutraBase(valor_converter_decimal, base_conversao);
                 cout<< "o valor é "<< valor_convertido_binario<<endl;
                 cout<<endl;
                 valor_recebido = true;
