@@ -80,6 +80,9 @@ bool isBinario(string valor){
 }
 int converterBinarioPraDecimal(string valor){
     int cont{};
+    if(valor=="1"){
+        return 1;
+    }
     if(valor[0]=='0'){
         for(int i=0; i<valor.length(); i++){
             if(valor.at(i)=='1'){
